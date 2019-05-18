@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>表单优化_下拉菜单</title>
+  <link rel="stylesheet" href="css/public.css" />
+  <!-- 常用清除样式css文件 -->
+  <style>
+    body{font:16px/32px "微软雅黑";background: #333333;}
+    #box{width:500px;height:326px;border:3px solid #000000;background: #FFF;position:absolute;left:50%;top:50%;margin:-163px 0 0 -250px;}
+    a{color:#000;text-decoration:none;line-height:30px;padding:0 10px;}
+    .province{width:320px;height:42px;background:#C00;margin:80px auto;position:relative;}
+    .province strong{width:64px;height:42px;line-height:42px;display: block;float:left;color:#FFF;padding-left:10px;}
+    #selectProvince{width:200px;height:28px;background:#FFF url(images/province_sprites.png) no-repeat 190px 1px;display: block;float:left;margin-top:7px;padding-left:8px;color:#ccc;cursor:pointer;}
+    #allProvince{width:318px;height:auto;line-height:30px;clear:both; border:1px solid #999;position:absolute;top:42px;left:0;background:#FFF;border-top:none;display: none;z-index: 101;}
+    #allProvince li{height:30px;border-bottom:1px solid #DFDFDF;}
+    #allProvince li b{width:40px;text-align:center;font-weight: bold;padding: 0 10px;display: inline-block;}
+    #allProvince li span{padding-right: 15px;cursor: pointer;}
+    #allProvince li span:hover{color:#C00;}
+    #layer{width:100%;height:100%;background: #FFF;position:absolute;top:0;left:0;z-index:100;filter:alpha(opacity=0);opacity: 0;display: none;}
+/*    .show{color:#ccc;background-position:190px -17px;}
+    .hide{color:#000;background-position:190px 1px;}*/
+  </style>
+</head>
+<body>
+  <div id="box">
+    <div class="province">
+      <strong>送货至:</strong>
+      <span id="selectProvince">北京</span>
+        <ul id="allProvince" class="show">
+            <li><b>A</b><a href="javascript:void(0);"><span>安徽</span></a></li>
+            <li><b>B</b><a href="javascript:void(0);"><span>北京</span></a></li>
+            <li><b>C</b><a href="javascript:void(0);"><span>重庆</span></a></li>
+            <li><b>F</b><a href="javascript:void(0);"><span>福建</span></a></li>
+            <li><b>G</b><a href="javascript:void(0);"><span>广东</span></a><a href="javascript:void(0);"><span>广西</span></a></li>
+            <li><b>H</b><a href="javascript:void(0);"><span>河北</span></a><a href="javascript:void(0);"><span>河南</span></a><a href="javascript:void(0);"><span>黑龙江</span></a></li>
+            <li><b>J</b><a href="javascript:void(0);"><span>吉林</span></a><a href="javascript:void(0);"><span>江苏</span></a></li>
+            <li><b>L</b><a href="javascript:void(0);"><span>辽宁</span></a></li>
+            <li><b>N</b><a href="javascript:void(0);"><span>内蒙古</span></a></li>
+            <li><b>Q</b><a href="javascript:void(0);"><span>青海</span></a></li>
+            <li><b>S</b><a href="javascript:void(0);"><span>上海</span></a><a href="javascript:void(0);"><span>山东</span></a></li>
+            <li><b>T</b><a href="javascript:void(0);"><span>天津</span></a></li>
+            <li><b>X</b><a href="javascript:void(0);"><span>新疆</span></a></li>
+            <li><b>Y</b><a href="javascript:void(0);"><span>云南</span></a></li>
+            <li><b>Z</b><a href="javascript:void(0);"><span>浙江</span></a></li>
+        </ul>
+    </div>
+  </div>
+  <div id="layer"></div>
+  <script>
+
+function addLoadEvent(func) {
+  var oldonload = window.onload;
+  if (typeof window.onload != 'function') {
+    window.onload = func;
+  } else {  
+    window.onload = function() {
+      oldonload();
+      func();
+    }
+  }
+}
+function $(id){
+  return document.getElementById(id);
+}
+function showProvince(){
+  $("selectProvince").onclick = showAllProvince;
+  selectProvince();
+}
+function showAllProvince(){
+  $("allProvince").style.display = "block";
+  $("layer").style.display = 'block';
+  $("selectProvince").style.backgroundPosition = "190px -17px";
+  $("selectProvince").style.color = "#CCCCCC";
+  $("layer").onclick = function(){
+       hideAllProvince();
+  }
+  selectProvince();
+  // $("selectProvince").className = 'show';
+}
+function hideAllProvince(){
+  $("allProvince").style.display = "none";
+  $("layer").style.display = 'none';
+  // $("selectProvince").style.color = "#000000";
+  $("selectProvince").style.backgroundPosition = "189px 1px";
+  // $("selectProvince").className = 'hide';
+}
+function selectProvince(){
+  var pro = $("allProvince").getElementsByTagName("li");
+  var links;
+  for(var i=0;i<pro.length;i++){
+    links = pro[i].getElementsByTagName("a");
+    for(var j=0;j<links.length;j++){
+      links[j].onclick = function(){
+        $("selectProvince").innerHTML = this.innerHTML;
+        hideAllProvince();
+      }
+    }
+  }
+}
+addLoadEvent(showProvince);
+  </script>
+</body>
+</html>
